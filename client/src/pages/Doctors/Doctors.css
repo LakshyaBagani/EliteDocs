@@ -1,0 +1,566 @@
+/* =============================================
+   DOCTORS LISTING PAGE - Premium Healthcare Design
+   ============================================= */
+
+/* Page Container */
+.doctors-page {
+    padding-top: 8rem;
+    padding-bottom: 4rem;
+    min-height: 100vh;
+    background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg-main) 100%);
+}
+
+.doctors-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Page Header */
+.doctors-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.doctors-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    color: var(--color-secondary);
+    margin-bottom: 0.75rem;
+    font-family: var(--font-heading);
+}
+
+.doctors-header h1 span {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.doctors-header p {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Search Section */
+.doctors-search-section {
+    background: white;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--color-border-subtle);
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.doctors-search-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.doctors-search-input-wrapper {
+    flex: 1;
+    position: relative;
+}
+
+.doctors-search-input-wrapper input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    background: var(--color-bg-alt);
+}
+
+.doctors-search-input-wrapper input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    background: white;
+}
+
+.doctors-search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+}
+
+.doctors-search-btn {
+    padding: 1rem 2rem;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.doctors-search-btn:hover {
+    background: var(--color-primary-deep);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3);
+}
+
+/* Specialization Pills */
+.doctors-filters {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+}
+
+.doctors-filter-pill {
+    padding: 0.625rem 1.25rem;
+    border-radius: 2rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--color-border-subtle);
+    background: var(--color-bg-alt);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.doctors-filter-pill:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.doctors-filter-pill.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.3);
+}
+
+/* Doctors Grid */
+.doctors-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+@media (max-width: 768px) {
+    .doctors-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Doctor Card */
+.doctor-card {
+    background: white;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border-subtle);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.doctor-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    border-color: var(--color-primary);
+}
+
+.doctor-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Card Header with Gradient */
+.doctor-card-header {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    position: relative;
+}
+
+.doctor-card-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--color-border-subtle), transparent);
+}
+
+/* Avatar */
+.doctor-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-accent) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    font-family: var(--font-heading);
+    overflow: hidden;
+    border: 3px solid white;
+    box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.3);
+}
+
+.doctor-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Verified Badge */
+.verified-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.875rem;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1) 0%, rgba(34, 197, 94, 0.05) 100%);
+    color: #16a34a;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 2rem;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.verified-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Card Body */
+.doctor-card-body {
+    padding: 1.5rem;
+}
+
+.doctor-name {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-secondary);
+    margin-bottom: 0.375rem;
+    font-family: var(--font-heading);
+}
+
+.doctor-specialization {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--color-primary);
+    margin-bottom: 0.25rem;
+}
+
+.doctor-experience {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1rem;
+}
+
+/* Ratings Row */
+.doctor-rating {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.75rem;
+}
+
+.doctor-rating-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.doctor-rating-stars svg {
+    color: #fbbf24;
+    fill: #fbbf24;
+}
+
+.doctor-rating-value {
+    font-weight: 700;
+    color: var(--color-secondary);
+    font-size: 0.9375rem;
+}
+
+.doctor-rating-count {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+/* Availability Tags */
+.doctor-availability {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.availability-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+}
+
+.availability-tag.online {
+    background: rgba(37, 99, 235, 0.1);
+    color: var(--color-primary);
+}
+
+.availability-tag.clinic {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+}
+
+.availability-tag svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Fees Row */
+.doctor-fees {
+    display: flex;
+    gap: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px dashed var(--color-border-subtle);
+    margin-bottom: 1rem;
+}
+
+.fee-item {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.fee-item span {
+    font-weight: 600;
+    color: var(--color-secondary);
+}
+
+/* Card Footer */
+.doctor-card-footer {
+    padding: 0 1.5rem 1.5rem;
+}
+
+.book-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-deep) 100%);
+    color: white;
+    border: none;
+    border-radius: 0.75rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: var(--font-heading);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.book-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(37, 99, 235, 0.4);
+}
+
+.book-btn svg {
+    transition: transform 0.2s ease;
+}
+
+.book-btn:hover svg {
+    transform: translateX(4px);
+}
+
+/* Loading Skeleton */
+.doctors-loading-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+}
+
+.doctor-card-skeleton {
+    background: white;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--color-border-subtle);
+    height: 400px;
+}
+
+.skeleton-header {
+    height: 120px;
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05) 0%, rgba(6, 182, 212, 0.05) 100%);
+}
+
+.skeleton-body {
+    padding: 1.5rem;
+}
+
+.skeleton-line {
+    height: 16px;
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, white 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-line.short {
+    width: 60%;
+}
+
+.skeleton-line.medium {
+    width: 80%;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: 100% 0;
+    }
+
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+/* Empty State */
+.doctors-empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: white;
+    border-radius: 1.25rem;
+    border: 1px solid var(--color-border-subtle);
+}
+
+.doctors-empty-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    background: var(--color-bg-alt);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+}
+
+.doctors-empty h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-secondary);
+    margin-bottom: 0.5rem;
+    font-family: var(--font-heading);
+}
+
+.doctors-empty p {
+    color: var(--color-text-muted);
+}
+
+/* Pagination */
+.doctors-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: var(--shadow-soft);
+}
+
+.pagination-btn {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--color-border-subtle);
+    background: white;
+    color: var(--color-text-main);
+    border-radius: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+    background: var(--color-primary-light);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    padding: 0.5rem 1rem;
+    background: var(--color-bg-alt);
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.pagination-info span {
+    font-weight: 600;
+    color: var(--color-secondary);
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .doctors-search-row {
+        flex-direction: column;
+    }
+
+    .doctors-search-btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .doctors-pagination {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .pagination-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
