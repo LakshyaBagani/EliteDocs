@@ -170,8 +170,39 @@ export const DoctorProfile: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="profile-loading">
-                <div className="loading-spinner"></div>
+            <div className="doctor-profile">
+                <div className="profile-container">
+                    {/* Skeleton Header */}
+                    <div className="profile-header">
+                        <div className="skeleton-line" style={{ width: '160px', height: '1rem', marginBottom: '1rem' }} />
+                        <div className="skeleton-line" style={{ width: '200px', height: '2rem', marginBottom: '0.5rem' }} />
+                        <div className="skeleton-line" style={{ width: '280px', height: '1rem' }} />
+                    </div>
+
+                    {/* Skeleton Form Cards */}
+                    {[1, 2, 3].map((card) => (
+                        <div key={card} className="skeleton-form-card">
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+                                <div className="skeleton-circle" style={{ width: '24px', height: '24px' }} />
+                                <div className="skeleton-line" style={{ width: '180px', height: '1.25rem', margin: 0 }} />
+                            </div>
+                            <div className="skeleton-form-grid">
+                                {[1, 2, 3, 4].map((field) => (
+                                    <div key={field} className="skeleton-form-field">
+                                        <div className="skeleton-label" />
+                                        <div className="skeleton-input" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+
+                    {/* Skeleton Submit Buttons */}
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '1rem', marginTop: '1.5rem' }}>
+                        <div className="skeleton" style={{ width: '100px', height: '44px', borderRadius: '0.75rem' }} />
+                        <div className="skeleton" style={{ width: '140px', height: '44px', borderRadius: '0.75rem' }} />
+                    </div>
+                </div>
             </div>
         );
     }

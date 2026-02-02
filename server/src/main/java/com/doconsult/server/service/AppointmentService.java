@@ -82,12 +82,19 @@ public class AppointmentService {
         appointment = appointmentRepository.save(appointment);
 
         // Send confirmation email (async)
-        try {
-            emailService.sendAppointmentConfirmation(appointment);
-        } catch (Exception e) {
-            // Log error but don't fail the appointment creation
-            e.printStackTrace();
-        }
+        /*
+         * Logic moved to confirmation step
+         * try {
+         * emailService.sendAppointmentConfirmation(
+         * patient.getUser().getEmail(),
+         * patient.getFullName(),
+         * doctor.getFullName(),
+         * appointment.getAppointmentDate().atTime(appointment.getSlotTime())
+         * );
+         * } catch (Exception e) {
+         * e.printStackTrace();
+         * }
+         */
 
         return mapToResponse(appointment);
     }
@@ -164,6 +171,20 @@ public class AppointmentService {
         }
 
         appointment = appointmentRepository.save(appointment);
+
+        // Send email if confirmed
+        if (status == AppointmentStatus.CONFIRMED) {
+            try {
+                emailService.sendAppointmentConfirmation(
+                        appointment.getPatient().getUser().getEmail(),
+                        appointment.getPatient().getFullName(),
+                        appointment.getDoctor().getFullName(),
+                        appointment.getAppointmentDate().atTime(appointment.getSlotTime()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         return mapToResponse(appointment);
     }
 
@@ -180,7 +201,11 @@ public class AppointmentService {
 
         // Send payment confirmation email
         try {
-            emailService.sendPaymentConfirmation(appointment);
+            emailService.sendAppointmentConfirmation(
+                    appointment.getPatient().getUser().getEmail(),
+                    appointment.getPatient().getFullName(),
+                    appointment.getDoctor().getFullName(),
+                    appointment.getAppointmentDate().atTime(appointment.getSlotTime()));
         } catch (Exception e) {
             e.printStackTrace();
         }

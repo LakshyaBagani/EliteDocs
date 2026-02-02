@@ -59,8 +59,54 @@ export const PatientDashboard: React.FC = () => {
     if (loading) {
         return (
             <div className="patient-dashboard">
-                <div className="flex justify-center pt-24">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <div className="dashboard-container">
+                    {/* Skeleton Header */}
+                    <div className="dashboard-header">
+                        <div>
+                            <div className="skeleton-line" style={{ height: '2rem', width: '250px', marginBottom: '0.5rem' }} />
+                            <div className="skeleton-line" style={{ height: '1rem', width: '200px' }} />
+                        </div>
+                        <div className="skeleton" style={{ width: '160px', height: '44px', borderRadius: '0.75rem' }} />
+                    </div>
+
+                    {/* Skeleton Stats Grid */}
+                    <div className="skeleton-stats-grid">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="skeleton-stat-card">
+                                <div className="skeleton-line short" />
+                                <div className="skeleton-line xshort" style={{ height: '1.5rem' }} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Skeleton Content Grid */}
+                    <div className="skeleton-content-grid">
+                        <div className="skeleton-section-card">
+                            <div className="skeleton-section-header">
+                                <div className="skeleton-line" style={{ width: '150px', height: '1.25rem' }} />
+                                <div className="skeleton-line" style={{ width: '80px', height: '1rem' }} />
+                            </div>
+                            {[1, 2, 3].map((i) => (
+                                <div key={i} className="skeleton-appointment-item">
+                                    <div className="skeleton-circle" style={{ width: '48px', height: '48px' }} />
+                                    <div className="skeleton-info">
+                                        <div className="skeleton-line medium" />
+                                        <div className="skeleton-line short" />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className="skeleton-section-card">
+                            <div className="skeleton-section-header">
+                                <div className="skeleton-line" style={{ width: '100px', height: '1.25rem' }} />
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '1rem' }}>
+                                <div className="skeleton-circle" style={{ width: '80px', height: '80px', marginBottom: '1rem' }} />
+                                <div className="skeleton-line" style={{ width: '120px', height: '1.25rem', marginBottom: '0.5rem' }} />
+                                <div className="skeleton-line" style={{ width: '180px', height: '1rem' }} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         );

@@ -88,8 +88,41 @@ export const DoctorAppointments: React.FC = () => {
 
     if (loading && appointments.length === 0) {
         return (
-            <div className="appointments-loading">
-                <div className="loading-spinner"></div>
+            <div className="doctor-appointments">
+                <div className="appointments-container">
+                    {/* Skeleton Header */}
+                    <div className="appointments-header">
+                        <div>
+                            <div className="skeleton-line" style={{ width: '160px', height: '1rem', marginBottom: '1rem' }} />
+                            <div className="skeleton-line" style={{ width: '220px', height: '2rem', marginBottom: '0.5rem' }} />
+                            <div className="skeleton-line" style={{ width: '250px', height: '1rem' }} />
+                        </div>
+                    </div>
+
+                    {/* Skeleton Filters */}
+                    <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '2rem' }}>
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="skeleton" style={{ width: '100px', height: '40px', borderRadius: '2rem' }} />
+                        ))}
+                    </div>
+
+                    {/* Skeleton Appointments List */}
+                    <div className="appointments-list">
+                        {[1, 2, 3, 4, 5].map((i) => (
+                            <div key={i} className="skeleton-appointment-item" style={{ padding: '1.25rem' }}>
+                                <div className="skeleton-circle" style={{ width: '48px', height: '48px' }} />
+                                <div className="skeleton-info" style={{ flex: 1 }}>
+                                    <div className="skeleton-line" style={{ width: '40%', marginBottom: '0.5rem' }} />
+                                    <div className="skeleton-line short" />
+                                </div>
+                                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                    <div className="skeleton" style={{ width: '80px', height: '32px', borderRadius: '0.5rem' }} />
+                                    <div className="skeleton" style={{ width: '80px', height: '32px', borderRadius: '0.5rem' }} />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         );
     }

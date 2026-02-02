@@ -34,8 +34,42 @@ export const AdminDashboard: React.FC = () => {
     if (loading) {
         return (
             <div className="admin-dashboard">
-                <div className="flex justify-center pt-24">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <div className="dashboard-container">
+                    {/* Skeleton Header */}
+                    <div className="dashboard-header">
+                        <div>
+                            <div className="skeleton-line" style={{ height: '2rem', width: '200px', marginBottom: '0.5rem' }} />
+                            <div className="skeleton-line" style={{ height: '1rem', width: '280px' }} />
+                        </div>
+                    </div>
+
+                    {/* Skeleton Stats Grid */}
+                    <div className="skeleton-stats-grid">
+                        {[1, 2, 3, 4].map((i) => (
+                            <div key={i} className="skeleton-stat-card">
+                                <div className="skeleton-line short" />
+                                <div className="skeleton-line xshort" style={{ height: '1.5rem' }} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Skeleton Quick Actions */}
+                    <div className="skeleton-content-grid" style={{ marginBottom: '2rem' }}>
+                        {[1, 2].map((i) => (
+                            <div key={i} className="skeleton-section-card" style={{ minHeight: '150px' }}>
+                                <div className="skeleton-circle" style={{ width: '48px', height: '48px', marginBottom: '1rem' }} />
+                                <div className="skeleton-line medium" style={{ marginBottom: '0.5rem' }} />
+                                <div className="skeleton-line long" />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Skeleton Activity Card */}
+                    <div className="skeleton-section-card" style={{ minHeight: '200px', textAlign: 'center' }}>
+                        <div className="skeleton-circle" style={{ width: '64px', height: '64px', margin: '0 auto 1rem' }} />
+                        <div className="skeleton-line" style={{ width: '160px', margin: '0 auto 0.5rem' }} />
+                        <div className="skeleton-line" style={{ width: '80%', margin: '0 auto' }} />
+                    </div>
                 </div>
             </div>
         );

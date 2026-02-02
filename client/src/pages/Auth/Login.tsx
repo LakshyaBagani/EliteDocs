@@ -71,7 +71,19 @@ export const Login: React.FC = () => {
             }
         } catch (error: any) {
             console.error('Login error:', error);
-            toast.error(error.response?.data?.message || 'Login failed');
+            const errorMessage = error.response?.data?.message || 'Login failed';
+
+            if (errorMessage === 'Email not verified') {
+                toast.warning('Please verify your email first');
+                navigate('/register', {
+                    state: {
+                        email: data.email,
+                        showOtp: true
+                    }
+                });
+            } else {
+                toast.error(errorMessage);
+            }
         } finally {
             setIsLoading(false);
         }

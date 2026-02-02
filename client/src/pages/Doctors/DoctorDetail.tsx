@@ -64,9 +64,63 @@ export const DoctorDetail: React.FC = () => {
         return (
             <div className="doctor-detail-page">
                 <div className="doctor-detail-container">
-                    <div className="doctor-detail-loading">
-                        <div className="loading-spinner"></div>
-                        <p>Loading doctor information...</p>
+                    {/* Skeleton Back Link */}
+                    <div className="skeleton-line" style={{ width: '150px', height: '1rem', marginBottom: '1.5rem' }} />
+
+                    <div className="doctor-detail-grid">
+                        {/* Skeleton Main Content */}
+                        <div className="doctor-main-content">
+                            {/* Skeleton Profile Header */}
+                            <div className="skeleton-form-card" style={{ display: 'flex', gap: '1.5rem', alignItems: 'flex-start' }}>
+                                <div className="skeleton-circle" style={{ width: '100px', height: '100px', flexShrink: 0 }} />
+                                <div style={{ flex: 1 }}>
+                                    <div className="skeleton-line" style={{ width: '200px', height: '1.75rem', marginBottom: '0.75rem' }} />
+                                    <div className="skeleton-line" style={{ width: '150px', height: '1rem', marginBottom: '1rem' }} />
+                                    <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+                                        <div className="skeleton" style={{ width: '120px', height: '28px', borderRadius: '1rem' }} />
+                                        <div className="skeleton" style={{ width: '150px', height: '28px', borderRadius: '1rem' }} />
+                                    </div>
+                                    <div style={{ display: 'flex', gap: '0.75rem' }}>
+                                        <div className="skeleton" style={{ width: '140px', height: '32px', borderRadius: '2rem' }} />
+                                        <div className="skeleton" style={{ width: '120px', height: '32px', borderRadius: '2rem' }} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Skeleton About Section */}
+                            <div className="skeleton-form-card">
+                                <div className="skeleton-line" style={{ width: '80px', height: '1.25rem', marginBottom: '1rem' }} />
+                                <div className="skeleton-line long" />
+                                <div className="skeleton-line medium" />
+                                <div className="skeleton-line short" />
+                            </div>
+
+                            {/* Skeleton Experience Section */}
+                            <div className="skeleton-form-card">
+                                <div className="skeleton-line" style={{ width: '180px', height: '1.25rem', marginBottom: '1rem' }} />
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                                    <div className="skeleton-circle" style={{ width: '60px', height: '60px' }} />
+                                    <div style={{ flex: 1 }}>
+                                        <div className="skeleton-line medium" />
+                                        <div className="skeleton-line long" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Skeleton Sidebar */}
+                        <div className="doctor-sidebar">
+                            <div className="skeleton-form-card">
+                                <div className="skeleton-line" style={{ width: '160px', height: '1.25rem', marginBottom: '1.5rem' }} />
+                                <div style={{ display: 'flex', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                                    <div className="skeleton" style={{ flex: 1, height: '80px', borderRadius: '0.75rem' }} />
+                                    <div className="skeleton" style={{ flex: 1, height: '80px', borderRadius: '0.75rem' }} />
+                                </div>
+                                <div className="skeleton-line long" style={{ marginBottom: '0.5rem' }} />
+                                <div className="skeleton-line long" style={{ marginBottom: '1.5rem' }} />
+                                <div className="skeleton" style={{ width: '100%', height: '48px', borderRadius: '0.75rem' }} />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

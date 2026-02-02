@@ -43,6 +43,20 @@ public class AuthController {
         return ResponseEntity.ok(ApiResponse.success("Token refreshed", response));
     }
 
+    @PostMapping("/verify-otp")
+    @Operation(summary = "Verify OTP")
+    public ResponseEntity<ApiResponse<AuthResponse>> verifyOtp(@RequestParam String email, @RequestParam String otp) {
+        AuthResponse response = authService.verifyOtp(email, otp);
+        return ResponseEntity.ok(ApiResponse.success("Email verified successfully", response));
+    }
+
+    @PostMapping("/resend-otp")
+    @Operation(summary = "Resend OTP")
+    public ResponseEntity<ApiResponse<String>> resendOtp(@RequestParam String email) {
+        authService.resendOtp(email);
+        return ResponseEntity.ok(ApiResponse.success("OTP sent successfully", null));
+    }
+
     @GetMapping("/me")
     @Operation(summary = "Get current user info")
     public ResponseEntity<ApiResponse<AuthResponse.UserInfo>> getCurrentUser() {

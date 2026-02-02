@@ -24,6 +24,19 @@ export const authService = {
         return response.data.data;
     },
 
+    async verifyOtp(email: string, otp: string): Promise<AuthResponse> {
+        const response = await api.post<ApiResponse<AuthResponse>>(
+            `/auth/verify-otp?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(otp)}`
+        );
+        return response.data.data;
+    },
+
+    async resendOtp(email: string): Promise<void> {
+        await api.post<ApiResponse<string>>(
+            `/auth/resend-otp?email=${encodeURIComponent(email)}`
+        );
+    },
+
     async login(data: LoginData): Promise<AuthResponse> {
         const response = await api.post<ApiResponse<AuthResponse>>(
             "/auth/login",

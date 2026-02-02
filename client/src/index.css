@@ -175,3 +175,262 @@ h4,
 .animate-fade-in {
     animation: fadeInUp 0.6s ease-out forwards;
 }
+
+/* --- Skeleton Loading Styles --- */
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, #e2e8f0 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.5rem;
+}
+
+.skeleton-line {
+    height: 1rem;
+    margin-bottom: 0.75rem;
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, #e2e8f0 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.25rem;
+}
+
+.skeleton-line.short {
+    width: 60%;
+}
+
+.skeleton-line.medium {
+    width: 80%;
+}
+
+.skeleton-line.long {
+    width: 100%;
+}
+
+.skeleton-line.xshort {
+    width: 40%;
+}
+
+.skeleton-circle {
+    border-radius: 50%;
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, #e2e8f0 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+}
+
+.skeleton-card {
+    background: white;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Dashboard Skeleton */
+.dashboard-skeleton {
+    padding-top: 8rem;
+    min-height: 100vh;
+}
+
+.dashboard-skeleton .skeleton-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-skeleton .skeleton-header .skeleton-line:first-child {
+    height: 2rem;
+    width: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-skeleton .skeleton-header .skeleton-line:last-child {
+    height: 1rem;
+    width: 30%;
+}
+
+.skeleton-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.skeleton-stat-card {
+    background: white;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    height: 100px;
+}
+
+.skeleton-stat-card .skeleton-line:first-child {
+    height: 0.875rem;
+    width: 60%;
+    margin-bottom: 0.75rem;
+}
+
+.skeleton-stat-card .skeleton-line:last-child {
+    height: 1.5rem;
+    width: 40%;
+}
+
+.skeleton-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .skeleton-content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.skeleton-section-card {
+    background: white;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    min-height: 300px;
+}
+
+.skeleton-section-card .skeleton-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.skeleton-section-card .skeleton-section-header .skeleton-line {
+    margin: 0;
+}
+
+/* Appointment Skeleton */
+.skeleton-appointment-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+    background: white;
+}
+
+.skeleton-appointment-item .skeleton-circle {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.skeleton-appointment-item .skeleton-info {
+    flex: 1;
+}
+
+.skeleton-appointment-item .skeleton-info .skeleton-line:first-child {
+    height: 1rem;
+    width: 50%;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-appointment-item .skeleton-info .skeleton-line:last-child {
+    height: 0.75rem;
+    width: 70%;
+}
+
+/* Profile Skeleton */
+.skeleton-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.skeleton-profile-header .skeleton-circle {
+    width: 80px;
+    height: 80px;
+}
+
+.skeleton-profile-header .skeleton-info .skeleton-line:first-child {
+    height: 1.5rem;
+    width: 150px;
+    margin-bottom: 0.5rem;
+}
+
+.skeleton-profile-header .skeleton-info .skeleton-line:last-child {
+    height: 1rem;
+    width: 100px;
+}
+
+/* Form Skeleton */
+.skeleton-form-card {
+    background: white;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.skeleton-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+@media (max-width: 640px) {
+    .skeleton-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.skeleton-form-field {
+    margin-bottom: 1rem;
+}
+
+.skeleton-form-field .skeleton-label {
+    height: 0.75rem;
+    width: 30%;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, #e2e8f0 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.25rem;
+}
+
+.skeleton-form-field .skeleton-input {
+    height: 2.5rem;
+    width: 100%;
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, #e2e8f0 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.5rem;
+}
+
+/* Table Skeleton */
+.skeleton-table {
+    width: 100%;
+}
+
+.skeleton-table-row {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.skeleton-table-row .skeleton-cell {
+    flex: 1;
+    height: 1rem;
+    background: linear-gradient(90deg, var(--color-bg-alt) 25%, #e2e8f0 50%, var(--color-bg-alt) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 0.25rem;
+}

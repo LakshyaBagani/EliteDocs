@@ -40,8 +40,46 @@ export const AdminPatientManagement: React.FC = () => {
     if (loading && patients.length === 0) {
         return (
             <div className="admin-mgmt">
-                <div className="flex justify-center pt-24">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                <div className="mgmt-container">
+                    {/* Skeleton Header */}
+                    <div className="mgmt-header">
+                        <div>
+                            <div className="skeleton-line" style={{ width: '250px', height: '2rem', marginBottom: '0.5rem' }} />
+                            <div className="skeleton-line" style={{ width: '380px', height: '1rem' }} />
+                        </div>
+                    </div>
+
+                    {/* Skeleton Controls */}
+                    <div className="mgmt-controls" style={{ marginBottom: '1.5rem' }}>
+                        <div className="skeleton" style={{ flex: 1, maxWidth: '400px', height: '44px', borderRadius: '0.75rem' }} />
+                        <div className="skeleton" style={{ width: '44px', height: '44px', borderRadius: '0.75rem' }} />
+                    </div>
+
+                    {/* Skeleton Table */}
+                    <div className="skeleton-form-card">
+                        {/* Skeleton Table Header */}
+                        <div className="skeleton-table-row" style={{ borderBottom: '2px solid var(--color-border-subtle)', paddingBottom: '1rem' }}>
+                            {[1, 2, 3, 4, 5].map((i) => (
+                                <div key={i} className="skeleton-cell" style={{ height: '1rem' }} />
+                            ))}
+                        </div>
+                        {/* Skeleton Table Rows */}
+                        {[1, 2, 3, 4, 5, 6].map((row) => (
+                            <div key={row} className="skeleton-table-row">
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
+                                    <div className="skeleton-circle" style={{ width: '36px', height: '36px' }} />
+                                    <div style={{ flex: 1 }}>
+                                        <div className="skeleton-cell" style={{ width: '60%', marginBottom: '0.25rem' }} />
+                                        <div className="skeleton-cell" style={{ width: '80%', height: '0.75rem' }} />
+                                    </div>
+                                </div>
+                                <div className="skeleton-cell" style={{ flex: 0.5 }} />
+                                <div className="skeleton-cell" style={{ flex: 0.5 }} />
+                                <div className="skeleton-cell" style={{ flex: 0.7 }} />
+                                <div className="skeleton-cell" style={{ flex: 1 }} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         );
