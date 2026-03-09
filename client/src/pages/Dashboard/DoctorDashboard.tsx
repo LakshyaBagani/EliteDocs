@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     Calendar,
     Clock,
@@ -54,10 +54,7 @@ export const DoctorDashboard: React.FC = () => {
                             <div className="skeleton-line" style={{ height: '2rem', width: '280px', marginBottom: '0.5rem' }} />
                             <div className="skeleton-line" style={{ height: '1rem', width: '220px' }} />
                         </div>
-                        <div style={{ display: 'flex', gap: '0.75rem' }}>
-                            <div className="skeleton" style={{ width: '120px', height: '44px', borderRadius: '0.75rem' }} />
-                            <div className="skeleton" style={{ width: '140px', height: '44px', borderRadius: '0.75rem' }} />
-                        </div>
+                        <div className="skeleton" style={{ width: '140px', height: '44px', borderRadius: '0.75rem' }} />
                     </div>
 
                     {/* Skeleton Stats Grid */}
@@ -117,9 +114,6 @@ export const DoctorDashboard: React.FC = () => {
                         </p>
                     </div>
                     <div className="dashboard-header__actions">
-                        <Link to="/doctor/profile" className="dashboard-btn dashboard-btn--secondary">
-                            Edit Profile
-                        </Link>
                         <Link to="/doctor/appointments" className="dashboard-btn dashboard-btn--primary">
                             Appointments
                         </Link>
@@ -134,6 +128,7 @@ export const DoctorDashboard: React.FC = () => {
                         icon={<Users size={24} />}
                         colorClass="blue"
                         delay={1}
+                        link="/doctor/patients"
                     />
                     <StatCard
                         title="Today's Appointments"
@@ -248,7 +243,7 @@ export const DoctorDashboard: React.FC = () => {
                             </div>
 
                             <Link to="/doctor/profile" className="profile-card__update-btn">
-                                Update Availability
+                                Update Informations
                             </Link>
                         </div>
                     </div>
@@ -266,6 +261,7 @@ const StatCard = ({
     icon,
     colorClass,
     delay,
+    link,
 }: {
     title: string;
     value: string | number;
@@ -273,22 +269,31 @@ const StatCard = ({
     icon: React.ReactNode;
     colorClass: "blue" | "purple" | "emerald" | "amber";
     delay: number;
-}) => (
-    <div className={`stat-card stat-card--${colorClass} animate-fade-in animate-delay-${delay}`}>
-        <div className="stat-card__header">
-            <div className="stat-card__content">
-                <p className="stat-card__label">{title}</p>
-                <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
-                    <h3 className="stat-card__value">{value}</h3>
-                    {subtext && <span className="stat-card__subtext">{subtext}</span>}
+    link?: string;
+}) => {
+    const navigate = useNavigate();
+
+    return (
+        <div
+            className={`stat-card stat-card--${colorClass} animate-fade-in animate-delay-${delay}`}
+            onClick={link ? () => navigate(link) : undefined}
+            style={link ? { cursor: 'pointer' } : undefined}
+        >
+            <div className="stat-card__header">
+                <div className="stat-card__content">
+                    <p className="stat-card__label">{title}</p>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "0.5rem" }}>
+                        <h3 className="stat-card__value">{value}</h3>
+                        {subtext && <span className="stat-card__subtext">{subtext}</span>}
+                    </div>
+                </div>
+                <div className={`stat-card__icon stat-card__icon--${colorClass}`}>
+                    {icon}
                 </div>
             </div>
-            <div className={`stat-card__icon stat-card__icon--${colorClass}`}>
-                {icon}
-            </div>
         </div>
-    </div>
-);
+    );
+};
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
     const isOnline = appointment.consultationType === "ONLINE";

@@ -9,45 +9,76 @@ import {
     MapPin,
     Plus,
     ChevronRight,
+    ClipboardList,
 } from "lucide-react";
-import { patientService } from "../../services/patientService";
 import { appointmentService } from "../../services/appointmentService";
-import type { Patient, Appointment } from "../../types";
+import { websocketService } from "../../services/websocketService";
+import { usePatientProfile } from "../../context/PatientProfileContext";
+import type { Appointment } from "../../types";
 import "./PatientDashboard.css";
 
 export const PatientDashboard: React.FC = () => {
-    const [profile, setProfile] = useState<Patient | null>(null);
+    const { profile } = usePatientProfile();
     const [appointments, setAppointments] = useState<Appointment[]>([]);
+    const [totalAppointments, setTotalAppointments] = useState(0);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         loadDashboardData();
     }, []);
 
+    // WebSocket: real-time call status updates
+    useEffect(() => {
+        const onlineConfirmed = appointments.filter(
+            (a) => a.consultationType === "ONLINE" && a.status === "CONFIRMED"
+        );
+        if (onlineConfirmed.length === 0) return;
+
+        websocketService.connect(() => {
+            onlineConfirmed.forEach((a) => {
+                websocketService.subscribe(`/topic/call-status/${a.id}`, (message) => {
+                    const data = JSON.parse(message.body);
+                    if (data.status === "IN_PROGRESS") {
+                        setAppointments((prev) =>
+                            prev.map((apt) =>
+                                apt.id === a.id ? { ...apt, status: "IN_PROGRESS" } : apt
+                            )
+                        );
+                    } else if (data.status === "ENDED") {
+                        setAppointments((prev) =>
+                            prev.map((apt) =>
+                                apt.id === a.id ? { ...apt, status: "COMPLETED" } : apt
+                            )
+                        );
+                    }
+                });
+            });
+        });
+
+        return () => {
+            onlineConfirmed.forEach((a) => {
+                websocketService.unsubscribe(`/topic/call-status/${a.id}`);
+            });
+            websocketService.disconnect();
+        };
+    }, [appointments.map((a) => a.id).join(",")]);
+
     const loadDashboardData = async () => {
         try {
-            const [profileData, appointmentsData] = await Promise.all([
-                patientService.getOwnProfile(),
-                appointmentService.getAppointments(undefined, 0, 20), // Fetch more to filter
-            ]);
-            setProfile(profileData);
+            const appointmentsData = await appointmentService.getAppointments(undefined, 0, 20);
+            setTotalAppointments(appointmentsData.totalElements);
 
-            // Filter to show only upcoming appointments (today or future)
             const today = new Date();
             today.setHours(0, 0, 0, 0);
 
             const upcomingAppointments = appointmentsData.content.filter((apt) => {
                 const appointmentDate = new Date(apt.appointmentDate);
                 appointmentDate.setHours(0, 0, 0, 0);
-
-                // Include if appointment is today or in the future
-                // and status is not CANCELLED or COMPLETED
                 return appointmentDate >= today &&
                     apt.status !== 'CANCELLED' &&
                     apt.status !== 'COMPLETED';
             });
 
-            // Take only first 5 for dashboard display
             setAppointments(upcomingAppointments.slice(0, 5));
         } catch (error) {
             console.error("Failed to load dashboard data", error);
@@ -141,6 +172,7 @@ export const PatientDashboard: React.FC = () => {
                         icon={<Calendar size={24} />}
                         colorClass="blue"
                         delay={1}
+                        to="/patient/appointments"
                     />
                     <StatCard
                         title="Medical Records"
@@ -148,13 +180,23 @@ export const PatientDashboard: React.FC = () => {
                         icon={<FileText size={24} />}
                         colorClass="purple"
                         delay={2}
+                        to="/patient/appointments"
+                    />
+                    <StatCard
+                        title="Total Appointments"
+                        value={totalAppointments}
+                        icon={<ClipboardList size={24} />}
+                        colorClass="amber"
+                        delay={3}
+                        to="/patient/appointments"
                     />
                     <StatCard
                         title="Profile Status"
                         value="Active"
                         icon={<User size={24} />}
                         colorClass="emerald"
-                        delay={3}
+                        delay={4}
+                        to="/patient/profile"
                     />
                 </div>
 
@@ -254,14 +296,16 @@ const StatCard = ({
     icon,
     colorClass,
     delay,
+    to,
 }: {
     title: string;
     value: string | number;
     icon: React.ReactNode;
-    colorClass: "blue" | "purple" | "emerald";
+    colorClass: "blue" | "purple" | "emerald" | "amber";
     delay: number;
+    to: string;
 }) => (
-    <div className={`stat-card stat-card--${colorClass} animate-fade-in animate-delay-${delay}`}>
+    <Link to={to} className={`stat-card stat-card--${colorClass} animate-fade-in animate-delay-${delay}`}>
         <div className="stat-card__header">
             <div className="stat-card__content">
                 <p className="stat-card__label">{title}</p>
@@ -271,11 +315,12 @@ const StatCard = ({
                 {icon}
             </div>
         </div>
-    </div>
+    </Link>
 );
 
 const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
     const isOnline = appointment.consultationType === "ONLINE";
+    const canJoinCall = isOnline && appointment.status === "IN_PROGRESS";
 
     return (
         <div className="appointment-card">
@@ -287,9 +332,20 @@ const AppointmentCard = ({ appointment }: { appointment: Appointment }) => {
                     <h4 className="appointment-card__name">
                         Dr. {appointment.doctor?.fullName}
                     </h4>
-                    <span className="appointment-card__time">
-                        {appointment.slotTime}
-                    </span>
+                    <div className="appointment-card__right">
+                        <span className="appointment-card__time">
+                            {appointment.slotTime}
+                        </span>
+                        {canJoinCall && (
+                            <Link
+                                to={`/patient/consultations/${appointment.id}/video`}
+                                className="appointment-card__join-btn"
+                            >
+                                <Video size={14} />
+                                {appointment.status === "IN_PROGRESS" ? "Join Call" : "Join"}
+                            </Link>
+                        )}
+                    </div>
                 </div>
                 <div className="appointment-card__meta">
                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>

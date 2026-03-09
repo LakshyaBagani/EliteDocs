@@ -39,6 +39,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/api/health").permitAll()
+                        .requestMatchers("/ws/**").permitAll()
+
+                        // Video call endpoints
+                        .requestMatchers("/api/video-call/**").authenticated()
 
                         // Doctor endpoints
                         .requestMatchers("/api/doctors/profile").authenticated()

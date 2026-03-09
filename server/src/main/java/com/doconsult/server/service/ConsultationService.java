@@ -92,9 +92,9 @@ public class ConsultationService {
     }
 
     public ConsultationResponse getConsultationByAppointmentId(java.util.UUID appointmentId) {
-        Consultation consultation = consultationRepository.findByAppointmentId(appointmentId)
-                .orElseThrow(() -> new ResourceNotFoundException("Consultation", "appointmentId", appointmentId));
-        return mapToResponse(consultation);
+        return consultationRepository.findByAppointmentId(appointmentId)
+                .map(this::mapToResponse)
+                .orElse(null);
     }
 
     @Transactional

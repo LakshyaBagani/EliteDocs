@@ -74,7 +74,7 @@ export interface Appointment {
     appointmentDate: string;
     slotTime: string;
     consultationType: "ONLINE" | "CLINIC";
-    status: "PENDING" | "CONFIRMED" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
+    status: "PENDING" | "CONFIRMED" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | "NO_SHOW";
     reason: string;
     symptoms: string;
     feeAmount: number;
@@ -150,6 +150,23 @@ export interface ApiResponse<T> {
     data: T;
     timestamp: string;
     errors?: Record<string, string>;
+}
+
+export interface ChatMessage {
+    id: string;
+    senderUserId: string;
+    senderName: string;
+    senderRole: string;
+    content: string;
+    messageType: string;
+    createdAt: string;
+}
+
+export interface SignalMessage {
+    type: string; // offer, answer, ice-candidate
+    appointmentId: string;
+    payload: string;
+    senderUserId: string;
 }
 
 export interface Analytics {

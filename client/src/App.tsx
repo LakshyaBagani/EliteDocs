@@ -4,6 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { PatientProfileProvider } from './context/PatientProfileContext';
 import { Navbar } from './components/common/Navbar/Navbar';
 import { Home } from './pages/Home/Home';
 import { Login } from './pages/Auth/Login';
@@ -19,6 +20,9 @@ import { DoctorProfile } from './pages/Profile/DoctorProfile';
 import { PatientProfile } from './pages/Profile/PatientProfile';
 import { PatientAppointments } from './pages/Appointments/PatientAppointments'; // Added import
 import { DoctorAppointments } from './pages/Appointments/DoctorAppointments';
+import { DoctorPatients } from './pages/Patients/DoctorPatients';
+import { DoctorConsultation } from './pages/Consultations/DoctorConsultation';
+import { VideoConsultation } from './pages/Consultations/VideoConsultation';
 import './index.css';
 
 // Protected Route Component
@@ -140,6 +144,38 @@ function AppRoutes() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/doctor/patients"
+          element={
+            <ProtectedRoute roles={['DOCTOR']}>
+              <DoctorPatients />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/consultations/:appointmentId"
+          element={
+            <ProtectedRoute roles={['DOCTOR']}>
+              <DoctorConsultation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/doctor/consultations/:appointmentId/video"
+          element={
+            <ProtectedRoute roles={['DOCTOR']}>
+              <VideoConsultation />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/patient/consultations/:appointmentId/video"
+          element={
+            <ProtectedRoute roles={['PATIENT']}>
+              <VideoConsultation />
+            </ProtectedRoute>
+          }
+        />
 
         {/* Admin Routes */}
         <Route
@@ -190,7 +226,9 @@ function AppRoutes() {
 function App() {
   return (
     <AuthProvider>
-      <AppRoutes />
+      <PatientProfileProvider>
+        <AppRoutes />
+      </PatientProfileProvider>
     </AuthProvider>
   );
 }

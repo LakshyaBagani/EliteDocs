@@ -2,7 +2,7 @@ import api from "./api";
 import type { ApiResponse, Consultation } from "../types";
 
 export interface ConsultationRequest {
-    appointmentId: number;
+    appointmentId: string;
     symptoms: string;
     diagnosis: string;
     notes?: string;
@@ -25,20 +25,20 @@ export const consultationService = {
         return response.data.data;
     },
 
-    async getConsultationById(id: number): Promise<Consultation> {
+    async getConsultationById(id: string): Promise<Consultation> {
         const response = await api.get<ApiResponse<Consultation>>(`/consultations/${id}`);
         return response.data.data;
     },
 
-    async getConsultationByAppointmentId(appointmentId: number): Promise<Consultation> {
+    async getConsultationByAppointmentId(appointmentId: string): Promise<Consultation | null> {
         const response = await api.get<ApiResponse<Consultation>>(
             `/consultations/appointment/${appointmentId}`
         );
-        return response.data.data;
+        return response.data.data ?? null;
     },
 
     async updateConsultation(
-        id: number,
+        id: string,
         data: ConsultationRequest
     ): Promise<Consultation> {
         const response = await api.put<ApiResponse<Consultation>>(

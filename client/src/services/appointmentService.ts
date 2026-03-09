@@ -69,4 +69,34 @@ export const appointmentService = {
         if (reason) url += `?reason=${encodeURIComponent(reason)}`;
         await api.delete(url);
     },
+
+    async getAppointmentWithDoctor(
+        doctorId: string
+    ): Promise<Appointment | null> {
+        const response = await api.get<ApiResponse<Appointment | null>>(
+            `/appointments/with-doctor/${doctorId}`
+        );
+        return response.data.data;
+    },
+
+    async getBookedSlots(
+        doctorId: string,
+        date: string
+    ): Promise<string[]> {
+        const response = await api.get<ApiResponse<string[]>>(
+            `/appointments/booked-slots/${doctorId}?date=${date}`
+        );
+        return response.data.data;
+    },
+
+    async rescheduleAppointment(
+        id: string,
+        data: BookAppointmentData
+    ): Promise<Appointment> {
+        const response = await api.put<ApiResponse<Appointment>>(
+            `/appointments/${id}/reschedule`,
+            data
+        );
+        return response.data.data;
+    },
 };

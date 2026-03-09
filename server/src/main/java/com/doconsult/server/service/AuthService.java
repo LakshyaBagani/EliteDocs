@@ -89,7 +89,11 @@ public class AuthService {
         }
 
         // Send OTP Email
-        emailService.sendOtpEmail(user.getEmail(), otp);
+        try {
+            emailService.sendOtpEmail(user.getEmail(), otp);
+        } catch (Exception e) {
+            log.error("Failed to send OTP email to {}: {}", user.getEmail(), e.getMessage());
+        }
 
         // Return response without tokens (user needs to verify first) or with tokens
         // but restricted access
@@ -166,7 +170,11 @@ public class AuthService {
         user.setOtpExpiry(java.time.LocalDateTime.now().plusMinutes(10));
         userRepository.save(user);
 
-        emailService.sendOtpEmail(user.getEmail(), otp);
+        try {
+            emailService.sendOtpEmail(user.getEmail(), otp);
+        } catch (Exception e) {
+            log.error("Failed to resend OTP email to {}: {}", user.getEmail(), e.getMessage());
+        }
     }
 
     public AuthResponse login(LoginRequest request) {
@@ -192,7 +200,11 @@ public class AuthService {
                 user.setOtp(otp);
                 user.setOtpExpiry(java.time.LocalDateTime.now().plusMinutes(10));
                 userRepository.save(user);
-                emailService.sendOtpEmail(user.getEmail(), otp);
+                try {
+                    emailService.sendOtpEmail(user.getEmail(), otp);
+                } catch (Exception e) {
+                    log.error("Failed to send OTP email during login to {}: {}", user.getEmail(), e.getMessage());
+                }
             }
             throw new BadRequestException("Email not verified");
         }

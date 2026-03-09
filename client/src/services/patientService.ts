@@ -1,6 +1,41 @@
 import api from "./api";
 import type { ApiResponse, Patient, PagedResponse } from "../types";
 
+export interface DoctorPatient {
+    id: string;
+    fullName: string;
+    email: string;
+    phone: string;
+    profileImage: string;
+    gender: string;
+    bloodGroup: string;
+    allergies: string;
+    medicalConditions: string;
+    dateOfBirth: string;
+    totalVisits: number;
+    lastVisitDate: string;
+    status: "ACTIVE" | "PAST";
+    visits?: VisitSummary[];
+}
+
+export interface VisitSummary {
+    appointmentId: string;
+    appointmentDate: string;
+    slotTime: string;
+    consultationType: string;
+    status: string;
+    reason: string;
+    diagnosis: string;
+    prescriptions: PrescriptionSummary[];
+}
+
+export interface PrescriptionSummary {
+    medicationName: string;
+    dosage: string;
+    frequency: string;
+    duration: string;
+}
+
 export interface PatientProfileRequest {
     firstName: string;
     lastName: string;
@@ -49,6 +84,20 @@ export const patientService = {
 
     async getPatientById(id: string): Promise<Patient> {
         const response = await api.get<ApiResponse<Patient>>(`/patients/${id}`);
+        return response.data.data;
+    },
+
+    async getDoctorPatients(): Promise<DoctorPatient[]> {
+        const response = await api.get<ApiResponse<DoctorPatient[]>>(
+            "/appointments/my-patients"
+        );
+        return response.data.data;
+    },
+
+    async getDoctorPatientDetail(patientId: string): Promise<DoctorPatient> {
+        const response = await api.get<ApiResponse<DoctorPatient>>(
+            `/appointments/my-patients/${patientId}`
+        );
         return response.data.data;
     },
 };

@@ -3,6 +3,7 @@ package com.doconsult.server.controller;
 import com.doconsult.server.dto.request.AppointmentRequest;
 import com.doconsult.server.dto.response.ApiResponse;
 import com.doconsult.server.dto.response.AppointmentResponse;
+import com.doconsult.server.dto.response.DoctorPatientResponse;
 import com.doconsult.server.dto.response.PagedResponse;
 import com.doconsult.server.model.AppointmentStatus;
 import com.doconsult.server.model.Role;
@@ -89,6 +90,56 @@ public class AppointmentController {
         String paymentId = "PAY_" + java.util.UUID.randomUUID().toString().substring(0, 8);
         return ResponseEntity.ok(ApiResponse.success(
                 appointmentService.confirmPayment(id, paymentId)));
+    }
+
+    @GetMapping("/with-doctor/{doctorId}")
+    @PreAuthorize("hasRole('PATIENT')")
+    @Operation(summary = "Get patient's active appointment with a specific doctor")
+    public ResponseEntity<ApiResponse<AppointmentResponse>> getAppointmentWithDoctor(
+            @PathVariable java.util.UUID doctorId) {
+        java.util.UUID userId = authService.getCurrentUser().getId();
+        AppointmentResponse response = appointmentService.getPatientAppointmentWithDoctor(userId, doctorId);
+        return ResponseEntity.ok(ApiResponse.success(response));
+    }
+
+    @GetMapping("/booked-slots/{doctorId}")
+    @Operation(summary = "Get booked slots for a doctor on a specific date")
+    public ResponseEntity<ApiResponse<List<String>>> getBookedSlots(
+            @PathVariable java.util.UUID doctorId,
+            @RequestParam java.time.LocalDate date) {
+        List<java.time.LocalTime> slots = appointmentService.getBookedSlots(doctorId, date);
+        List<String> slotStrings = slots.stream()
+                .map(t -> t.format(java.time.format.DateTimeFormatter.ofPattern("HH:mm")))
+                .collect(java.util.stream.Collectors.toList());
+        return ResponseEntity.ok(ApiResponse.success(slotStrings));
+    }
+
+    @PutMapping("/{id}/reschedule")
+    @PreAuthorize("hasRole('PATIENT')")
+    @Operation(summary = "Reschedule an appointment")
+    public ResponseEntity<ApiResponse<AppointmentResponse>> rescheduleAppointment(
+            @PathVariable java.util.UUID id,
+            @Valid @RequestBody AppointmentRequest request) {
+        java.util.UUID userId = authService.getCurrentUser().getId();
+        AppointmentResponse response = appointmentService.rescheduleAppointment(id, userId, request);
+        return ResponseEntity.ok(ApiResponse.success("Appointment rescheduled", response));
+    }
+
+    @GetMapping("/my-patients")
+    @PreAuthorize("hasRole('DOCTOR')")
+    @Operation(summary = "Get all patients for the current doctor")
+    public ResponseEntity<ApiResponse<List<DoctorPatientResponse>>> getDoctorPatients() {
+        java.util.UUID userId = authService.getCurrentUser().getId();
+        return ResponseEntity.ok(ApiResponse.success(appointmentService.getDoctorPatients(userId)));
+    }
+
+    @GetMapping("/my-patients/{patientId}")
+    @PreAuthorize("hasRole('DOCTOR')")
+    @Operation(summary = "Get patient detail with visit history")
+    public ResponseEntity<ApiResponse<DoctorPatientResponse>> getDoctorPatientDetail(
+            @PathVariable java.util.UUID patientId) {
+        java.util.UUID userId = authService.getCurrentUser().getId();
+        return ResponseEntity.ok(ApiResponse.success(appointmentService.getDoctorPatientDetail(userId, patientId)));
     }
 
     @DeleteMapping("/{id}")

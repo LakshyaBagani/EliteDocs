@@ -187,7 +187,7 @@ public class DoctorService {
         }
 
         @Transactional
-        @CacheEvict(value = "doctorById", key = "#doctorId")
+        @CacheEvict(value = { "doctors", "doctorById", "specializations" }, allEntries = true)
         public DoctorResponse verifyDoctor(java.util.UUID doctorId) {
                 Doctor doctor = doctorRepository.findById(doctorId)
                                 .orElseThrow(() -> new ResourceNotFoundException("Doctor", "id", doctorId));

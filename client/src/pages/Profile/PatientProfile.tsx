@@ -10,10 +10,12 @@ import {
 } from "lucide-react";
 import { toast } from "react-toastify";
 import { patientService } from "../../services/patientService";
+import { usePatientProfile } from "../../context/PatientProfileContext";
 import "./PatientProfile.css";
 
 export const PatientProfile: React.FC = () => {
     const navigate = useNavigate();
+    const { profile, loading: profileLoading, refreshProfile } = usePatientProfile();
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
 
@@ -30,31 +32,25 @@ export const PatientProfile: React.FC = () => {
         medicalConditions: "",
     });
 
+    // Populate form from cached profile
     useEffect(() => {
-        loadProfile();
-    }, []);
-
-    const loadProfile = async () => {
-        try {
-            const data = await patientService.getOwnProfile();
+        if (!profileLoading && profile) {
             setFormData({
-                firstName: data.firstName || "",
-                lastName: data.lastName || "",
-                dateOfBirth: data.dateOfBirth || "",
-                gender: (data.gender as any) || "OTHER",
-                bloodGroup: data.bloodGroup || "",
-                address: data.address || "",
-                emergencyContact: data.emergencyContact || "",
-                allergies: data.allergies || "",
-                medicalConditions: data.medicalConditions || "",
+                firstName: profile.firstName || "",
+                lastName: profile.lastName || "",
+                dateOfBirth: profile.dateOfBirth || "",
+                gender: (profile.gender as any) || "OTHER",
+                bloodGroup: profile.bloodGroup || "",
+                address: profile.address || "",
+                emergencyContact: profile.emergencyContact || "",
+                allergies: profile.allergies || "",
+                medicalConditions: profile.medicalConditions || "",
             });
-        } catch (error) {
-            console.error("Failed to load profile", error);
-            toast.error("Failed to load profile");
-        } finally {
+            setLoading(false);
+        } else if (!profileLoading) {
             setLoading(false);
         }
-    };
+    }, [profileLoading, profile]);
 
     const handleInputChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -72,6 +68,7 @@ export const PatientProfile: React.FC = () => {
 
         try {
             await patientService.updateProfile(formData);
+            await refreshProfile();
             toast.success("Profile updated successfully!");
             navigate("/patient/dashboard");
         } catch (error: any) {
